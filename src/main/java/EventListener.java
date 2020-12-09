@@ -1,8 +1,14 @@
-public class EventListener {
+import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Stream;
+
+public class EventListener extends Thread{
 
     private String messageToListenFor;
     private String messageToReplyWith;
     private Tracker eventTracker;
+    //private Lock lock = new ReentrantLock();
 
     public EventListener(String message, String reply) {
         this.messageToListenFor = message;
@@ -17,16 +23,26 @@ public class EventListener {
     }
 
     public void run() {
+        while(!readyToQuit()) {
+                if (shouldReply()) {
+                    reply();
+                }
+        }
     }
 
     public Boolean readyToQuit() {
-        return null;
+        return eventTracker.has("quit");
     }
 
     public Boolean shouldReply() {
-        return null;
+        return eventTracker.has(messageToListenFor);
     }
 
     public void reply() {
+        eventTracker.handle(messageToListenFor, () -> {  //invokes eventrackers handle() method and passing in the message
+            // to listen for and an eventhandler generated via lambda function
+            System.out.println(messageToReplyWith);
+        });
     }
+
 }

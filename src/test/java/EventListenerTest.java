@@ -37,7 +37,7 @@ public class EventListenerTest {
         public boolean itemWasPushed;
         public boolean eventWasHandled;
 
-        @Override
+        //@Override
         public Map<String, Integer> tracker() {
             return null;
         }
@@ -48,7 +48,7 @@ public class EventListenerTest {
         }
 
         @Override
-        public boolean has(String message) {
+        public Boolean has(String message) {
             return true;
         }
 
